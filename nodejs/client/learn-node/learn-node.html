@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div>
+			<h1>MY INFO</h1>
+			<div id="info">
+				<my-info :infoData="infoData"></my-info>
+			</div>
+		</div>
+		<script src="../../common/jquery.min.js"></script>
+		<script src="../../common/vue.min.js"></script>
+		<script>
+			function loadMyInfoData(){
+				$.ajax({
+					type: "get",
+					url: "127.0.0.1:8888",
+					dataType: "json",
+					success: function(resp){
+						loadMyInfoDom(resp.data);
+					},
+					error: function (resp){
+						alert(resp.msg)
+					}
+				});
+			}
+			function loadMyInfoDom(infoData){
+				Vue.component({
+					template: 
+						"<span>{{infoData.name}}</span>"
+						+"<span>{{infoData.id}}</span>",
+					props: {
+						infoData: Object
+					}
+					data: function(){
+						return {}
+					},
+				});
+				var myInfoVm= new Vue({
+					el: "#info",
+					data: {
+						infoData: infoData
+					}
+				});
+			}
+		</script>
+	</body>
+</html>
